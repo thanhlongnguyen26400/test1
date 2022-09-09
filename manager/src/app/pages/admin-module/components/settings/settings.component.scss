@@ -1,0 +1,28 @@
+.color{
+    background: white;
+    height: 30px;
+    width: 30px;
+    border-radius: 50%;
+    border: 1px solid black;
+    margin: auto;
+}
+td,th{
+    text-align: center;
+}
+.history-type-table{
+    max-height: 210px;
+    overflow: auto;
+}
+.action{
+    display: inline-block;
+    cursor: pointer;
+    &:hover{
+        color: #51cbce;
+    }
+}
+td{
+    &.default{
+        pointer-events: none;
+        color: gray;
+    }
+}

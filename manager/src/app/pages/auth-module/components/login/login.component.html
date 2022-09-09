@@ -1,0 +1,97 @@
+<p class="tip">Click on button in image container</p>
+<div class="cont" [ngClass]="{'s--signup': signIn}">
+  <form>
+    <div class="form sign-in" [formGroup]="loginForm">
+      <h2>Chào mừng quay lại,</h2>
+      <label>
+        <span>Email</span>
+        <input type="email" formControlName="username" />
+        <div *ngIf="loginForm.controls.username.touched && loginForm.controls.username.errors?.required">
+          <span class="text-danger">Email không được trống</span>
+        </div>
+        <div *ngIf="loginForm.controls.username.touched && loginForm.controls.username.errors?.email">
+          <span class="text-danger">Email không đúng</span>
+        </div>
+      </label>
+      <label>
+        <span>Password</span>
+        <input type="password" formControlName="password" />
+        <div *ngIf="loginForm.controls.password.touched && loginForm.controls.password.errors?.required">
+          <span class="text-danger">Password không được trống</span>
+        </div>
+        <div *ngIf="loginForm.controls.password.touched && loginForm.controls.password.errors?.containChineseChar">
+          <span class="text-danger">Password chưa chữ trung</span>
+        </div>
+        <div *ngIf="loginForm.controls.password.touched && loginForm.controls.password.errors?.invalidPassword">
+          <span class="text-danger">Password phải bao gồm ít nhất 8 ký tự, 1 hoa và 1 thường</span>
+        </div>
+      </label>
+      <p class="forgot-pass">Forgot password?</p>
+      <button type="submit" class="submit" (click)="login()" spendingSpinButton [loading]="loading">Đăng nhập</button>
+      <!-- <button type="button" class="fb-btn">Connect with <span>facebook</span></button> -->
+    </div>
+  </form>
+  <div class="sub-cont">
+    <div class="img">
+      <div class="img__text m--up">
+        <h2>Người mới?</h2>
+        <p>Đăng ký và quản lý tương lai của bạn!</p>
+      </div>
+      <div class="img__text m--in">
+        <h2>Đã trải nghiệm?</h2>
+        <p>Nếu đã có tài khoản, hãy đăng nhập nào!</p>
+      </div>
+      <div class="img__btn" (click)="signToggle()">
+        <span class="m--up">Đăng ký</span>
+        <span class="m--in">Đăng nhập</span>
+      </div>
+    </div>
+    <form>
+      <div class="form sign-up" [formGroup]="registerForm">
+        <h2>Giúp bạn quản lý tiền tốt nhất,</h2>
+        <label>
+          <span>Tên</span>
+          <input type="text" formControlName="name" />
+          <div *ngIf="registerForm.controls.name.touched && registerForm.controls.name.errors?.required">
+            <span class="text-danger">Name không được trống</span>
+          </div>
+
+        </label>
+        <label>
+          <span>Email</span>
+          <input type="email" formControlName="usr" />
+          <div *ngIf="registerForm.controls.usr.touched && registerForm.controls.usr.errors?.required">
+            <span class="text-danger">Email không được trống</span>
+          </div>
+          <div *ngIf="registerForm.controls.usr.touched && registerForm.controls.usr.errors?.email">
+            <span class="text-danger">Email không đúng</span>
+          </div>
+        </label>
+        <label>
+          <span>Password</span>
+          <input type="password" formControlName="pwd" />
+          <div *ngIf="registerForm.controls.pwd.touched">
+            <span class="text-danger" *ngIf="registerForm.controls.pwd.errors?.required">Password không được
+              trống</span>
+            <span class="text-danger" *ngIf="registerForm.controls.pwd.errors?.containChineseChar"><span
+                class="text-danger">Password chưa chữ trung</span></span>
+            <span class="text-danger" *ngIf="registerForm.controls.pwd.errors?.invalidPassword">Password phải bao gồm ít
+              nhất 8 ký tự, 1 hoa và 1 thường</span>
+          </div>
+        </label>
+        <label>
+          <span>Confirm Password</span>
+          <input type="password" formControlName="c_pwd">
+          <div *ngIf="registerForm.controls.c_pwd.touched">
+            <span class="text-danger" *ngIf="registerForm.controls.c_pwd.errors?.required">Confirm Password không được
+              trống</span>
+            <span class="text-danger" *ngIf="registerForm.controls.c_pwd.errors?.invalidConfirmPassword">Password không
+              trùng</span>
+          </div>
+        </label>
+        <button type="button" class="submit" (click)="signUp()" spendingSpinButton [loading]="loading">Đăng ký</button>
+        <!-- <button type="button" class="fb-btn">Join with <span>facebook</span></button> -->
+      </div>
+    </form>
+  </div>
+</div>

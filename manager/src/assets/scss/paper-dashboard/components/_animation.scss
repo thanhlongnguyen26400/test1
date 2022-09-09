@@ -1,0 +1,7 @@
+.icon-animate{
+    transition: all .5s;
+    display: inline-block;
+    &.rotate-45{
+     transform: rotate(45deg);   
+    }
+}

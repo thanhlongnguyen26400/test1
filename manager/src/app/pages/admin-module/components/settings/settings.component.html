@@ -1,0 +1,150 @@
+<div class="card">
+  <div class="card-header">
+    <h3>Thêm lịch sử chi tiêu và các loại khoản chi của bạn</h3>
+  </div>
+  <div class="card-body">
+    <div>
+      <button type="button" class="btn btn-primary" (click)="collapse_setting.history = !collapse_setting.history"
+        [attr.aria-expanded]="!collapse_setting.history" aria-controls="collapseBasic">
+        <span class="icon-animate mr-8" [ngClass]="{'rotate-45': !collapse_setting.history}">
+          <fa-icon [icon]="['fas','plus']"></fa-icon>
+        </span>
+        Lịch sử
+      </button>
+      <hr>
+      <div id="collapseBasic" [collapse]="collapse_setting.history" [isAnimated]="true">
+        <form action="" [formGroup]="formHistory">
+          <div class="row">
+            <div class="form-floating mb-8 col-4">
+              <input type="text" class="form-control" id="datefloatingInput" placeholder="Aug, 13 2000" bsDatepicker
+                formControlName="date" [bsConfig]="{ isAnimated: true, dateInputFormat: 'MMM, DD YYYY' }"
+                [maxDate]="maxDate"
+                [ngClass]="{'is-invalid': formHistory.controls.date.touched && formHistory.controls.date.errors?.required}">
+              <label class="ml-8" for="datefloatingInput">Ngày</label>
+            </div>
+            <div class="form-floating mb-8 col-4">
+              <input type="text" class="form-control" id="moneyfloatingInput" spendingNumberOnly placeholder="10000"
+                formControlName="money"
+                [ngClass]="{'is-invalid': formHistory.controls.money.touched && (formHistory.controls.money.errors?.required || formHistory.controls.money.errors?.min)}">
+              <label class="ml-8" for="moneyfloatingInput">Số tiền</label>
+            </div>
+            <div class="form-floating col-4">
+              <ng-select class="form-select pt-16 h-58 mr-8" formControlName="type" [searchable]="false"
+                [clearable]="false"
+                [ngClass]="{'is-invalid': formHistory.controls.type.touched && formHistory.controls.type.errors?.required}">
+                <ng-option *ngFor="let item of INCOME_TYPE" [value]="item.id">{{item.name}}</ng-option>
+              </ng-select>
+              <label class="ml-8" for="floatingSelect">Loại</label>
+            </div>
+          </div>
+          <div class="row">
+            <div class="form-floating col-3">
+              <ng-select class="form-select mr-8" formControlName="history_type" [searchable]="false"
+                [clearable]="false"
+                [ngClass]="{'is-invalid': formHistory.controls.history_type.touched && formHistory.controls.history_type.errors?.required}">
+                <ng-option *ngFor="let item of history_type" [value]="item.id">
+                  {{item.name}}{{item.description ? ' - '+item.description:''}}
+                </ng-option>
+              </ng-select>
+              <label class="ml-8" for="floatingSelect">Loại giao dịch</label>
+            </div>
+            <div class="form-floating mb-8 col-9">
+              <textarea class="form-control" placeholder="Leave a comment here" id="desfloatingTextarea"
+                style="height: 74px" formControlName="description" [spendingInputMaxLength]="500"></textarea>
+              <label class="ml-8" for="desfloatingTextarea">Mô tả</label>
+            </div>
+          </div>
+          <div class="d-flex justify-content-end">
+            <button type="submit" class="btn btn-success mr-8" spendingSpinButton [loading]="loading.history"
+              (click)="createHistory()">{{formHistory.value.id ? 'Update' : 'Create'}}</button>
+            <button type="button" class="btn btn-danger" (click)="initFormHistory()"
+              *ngIf="formHistory.value.id">Reset</button>
+          </div>
+        </form>
+      </div>
+    </div>
+    <div>
+      <button type="button" class="btn btn-primary"
+        (click)="collapse_setting.history_type = !collapse_setting.history_type"
+        [attr.aria-expanded]="!collapse_setting.history_type" aria-controls="collapseBasic">
+        <span class="icon-animate mr-8" [ngClass]="{'rotate-45': !collapse_setting.history_type}">
+          <fa-icon [icon]="['fas','plus']"></fa-icon>
+        </span>
+        Loại giao dịch
+      </button>
+      <hr>
+      <div id="collapseBasic" [collapse]="collapse_setting.history_type" [isAnimated]="true">
+        <form action="" [formGroup]="formHistoryType">
+          <div class="row mb-8">
+            <div class="row col-6">
+              <div class="form-floating mb-8">
+                <input class="form-control" placeholder="Food" id="namefloatingTextarea" formControlName="name"
+                  [ngClass]="{'is-invalid': formHistoryType.controls.name.touched && formHistoryType.controls.name.errors?.required}" />
+                <label class="ml-8" for="namefloatingTextarea">Tên</label>
+              </div>
+              <div class="form-floating mb-8">
+                <input class="form-control" placeholder="Vegetable" id="desfloatingTextarea"
+                  formControlName="description" />
+                <label class="ml-8" for="desfloatingTextarea">Mô tả</label>
+              </div>
+              <div class="row">
+                <div class="form-floating col-8">
+                  <input class="form-control" placeholder="#fff" id="colorfloatingTextarea" formControlName="color"
+                    [colorPicker]="formHistoryType.get('color').value||'#fff'"
+                    [value]="formHistoryType.get('color').value||'#fff'"
+                    (colorPickerChange)="formHistoryType.get('color').setValue($event)" [cpOutputFormat]="'hex'"
+                    [cpPosition]="'auto'" [(cpToggle)]="toggle" [cpIgnoredElements]="[ignore]"
+                    [ngClass]="{'is-invalid': formHistoryType.controls.color.touched && formHistoryType.controls.color.errors?.required}" />
+                  <label class="ml-8" for="colorfloatingTextarea">Màu sắc</label>
+                </div>
+                <div class="col-4 p-8 text-center d-flex" (click)="toggle != toggle" #ignore>
+                  <fa-icon [icon]="['fas','circle']" size="3x"
+                    [ngStyle]="{'color': formHistoryType.get('color').value||'#fff','stroke':'black','stroke-width.px':8}"
+                    class="ml-8"></fa-icon>
+                </div>
+              </div>
+            </div>
+            <div class="col-6 history-type-table">
+              <table class="table table-light">
+                <thead class="thead-light">
+                  <tr class="text-info">
+                    <th>#</th>
+                    <th>Tên</th>
+                    <th>Mô tả</th>
+                    <th>Màu sắc</th>
+                    <th>#</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr *ngFor="let type of history_type;let $index = index">
+                    <td>{{$index+1}}</td>
+                    <td>{{type.name}}</td>
+                    <td>{{type.description}}</td>
+                    <td>
+                      <div class="color" [style.background]="type.color"></div>
+                    </td>
+                    <td [ngClass]="{'default': type.defautl}">
+                      <span class="action pointer" (click)="edit(type)">
+                        <fa-icon [icon]="['fas','edit']"></fa-icon>
+                      </span> |
+                      <span class="action pointer" (click)="deleteHistoryType($index,type.id)">
+                        <fa-icon [icon]="['fas','trash']"></fa-icon>
+                      </span>
+                    </td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+          <div class="d-flex justify-content-end">
+            <button type="submit" class="btn btn-success mr-8" spendingSpinButton [loading]="loading.history_type"
+              (click)="createHistoryType()">{{formHistoryType.value.id ?
+              'Update':'Create'}}</button>
+            <button type="button" class="btn btn-danger" (click)="initFormHistoryType()"
+              *ngIf="formHistoryType.value.id">Reset</button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

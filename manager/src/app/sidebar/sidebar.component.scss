@@ -1,0 +1,9 @@
+.nav{
+    .profile{
+        opacity: 0;
+        pointer-events: none;
+        &.active{
+            opacity: 1;
+        }
+    }
+}

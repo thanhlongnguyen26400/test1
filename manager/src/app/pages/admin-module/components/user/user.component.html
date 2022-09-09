@@ -1,0 +1,219 @@
+<div class="row">
+  <div class="col-md-4">
+    <div class="card card-user">
+      <div class="image">
+        <img src="assets/img/damir-bosnjak.jpg" alt="...">
+      </div>
+      <div class="card-body">
+        <div class="author">
+          <!-- assets/img/default-avatar.png -->
+          <div class="upload-image">
+            <input id="upload-image" type="file" accept="image/*" (change)="uploadImage($event)">
+            <label class="upload-icon pointer" for="upload-image">
+              <fa-icon [icon]="['fas','camera-retro']"></fa-icon>
+            </label>
+          </div>
+          <img class="avatar border-gray" [src]="userProfile?.avatar | imageConvert" alt="{{userProfile?.firstName}}">
+          <h5 class="title text-info">{{userProfile?.firstName}} {{userProfile?.lastName}}</h5>
+          <p class="description link-profile pointer" [routerLink]="['/user',userProfile?.usr,userProfile?.id]">
+            @{{userProfile?.usr}}
+          </p>
+        </div>
+        <p class="description text-center signature">
+          "{{userProfile?.bio}}"
+        </p>
+      </div>
+      <div class="card-footer">
+        <hr>
+        <div class="button-container">
+          <div class="row">
+            <div class="col-lg-6 col-md-6 col-6 ml-auto">
+              <h5>{{userProfile?.income | currency:'VND'}}
+                <!-- <br> -->
+                <small>Thu nhập</small>
+              </h5>
+            </div>
+            <div class="col-lg-6 col-md-6 col-6 ml-auto mr-auto">
+              <h5>{{userProfile?.expend | currency:'VND'}}
+                <!-- <br> -->
+                <small>Tiêu thụ</small>
+              </h5>
+            </div>
+            <!-- <div class="col-lg-3 mr-auto">
+              <h5>{{userProfile?.lastUpdate | date: 'MMM, dd yyyy'}}
+                <br>
+                <small>Last update</small>
+              </h5>
+            </div> -->
+          </div>
+          <div class="row">
+            <div>
+              <small>Lần cuối cập nhật {{userProfile?.lastUpdate | date: 'MMM, dd yyyy'}}</small>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="card visually-hidden ">
+      <div class="card-header">
+        <h4 class="card-title">Team Members</h4>
+      </div>
+      <div class="card-body">
+        <ul class="list-unstyled team-members">
+          <li>
+            <div class="row">
+              <div class="col-md-2 col-2">
+                <div class="avatar">
+                  <img src="assets/img/faces/ayo-ogunseinde-2.jpg" alt="Circle Image"
+                    class="img-circle img-no-padding img-responsive">
+                </div>
+              </div>
+              <div class="col-md-7 col-7">
+                DJ Khaled
+                <br />
+                <span class="text-muted">
+                  <small>Offline</small>
+                </span>
+              </div>
+              <div class="col-md-3 col-3 text-right">
+                <button class="btn btn-sm btn-outline-success btn-round btn-icon"><i
+                    class="fa fa-envelope"></i></button>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="row">
+              <div class="col-md-2 col-2">
+                <div class="avatar">
+                  <img src="assets/img/faces/joe-gardner-2.jpg" alt="Circle Image"
+                    class="img-circle img-no-padding img-responsive">
+                </div>
+              </div>
+              <div class="col-md-7 col-7">
+                Creative Tim
+                <br />
+                <span class="text-success">
+                  <small>Available</small>
+                </span>
+              </div>
+              <div class="col-md-3 col-3 text-right">
+                <button class="btn btn-sm btn-outline-success btn-round btn-icon"><i
+                    class="fa fa-envelope"></i></button>
+              </div>
+            </div>
+          </li>
+          <li>
+            <div class="row">
+              <div class="col-md-2 col-2">
+                <div class="avatar">
+                  <img src="assets/img/faces/clem-onojeghuo-2.jpg" alt="Circle Image"
+                    class="img-circle img-no-padding img-responsive">
+                </div>
+              </div>
+              <div class="col-ms-7 col-7">
+                Flume
+                <br />
+                <span class="text-danger">
+                  <small>Busy</small>
+                </span>
+              </div>
+              <div class="col-md-3 col-3 text-right">
+                <button class="btn btn-sm btn-outline-success btn-round btn-icon"><i
+                    class="fa fa-envelope"></i></button>
+              </div>
+            </div>
+          </li>
+        </ul>
+      </div>
+    </div>
+  </div>
+  <div class="col-md-8">
+    <div class="card card-user">
+      <div class="card-header">
+        <h5 class="card-title">Chỉnh sửa hồ sơ</h5>
+      </div>
+      <div class="card-body">
+        <form [formGroup]="formProfile">
+          <div class="row">
+            <div class="col-md-5 pr-1">
+              <div class="form-group">
+                <label>Công ty</label>
+                <input type="text" class="form-control" formControlName="company" placeholder="Company">
+              </div>
+            </div>
+            <div class="col-md-3 px-1">
+              <div class="form-group">
+                <label>Tên hiển thị</label>
+                <input type="text" class="form-control" placeholder="Username" formControlName="usr"
+                  [ngClass]="{'is-invalid': formProfile.controls.usr.touched && formProfile.controls.usr.errors?.required}">
+              </div>
+            </div>
+            <div class="col-md-4 pl-1">
+              <div class="form-group">
+                <label for="exampleInputEmail1">Email</label>
+                <input type="email" class="form-control" formControlName="email" placeholder="Email">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-6 pr-1">
+              <div class="form-group">
+                <label>Tên đầu</label>
+                <input type="text" class="form-control" formControlName="firstName" placeholder="First Name"
+                  [ngClass]="{'is-invalid': formProfile.controls.firstName.touched && formProfile.controls.firstName.errors?.required}">
+              </div>
+            </div>
+            <div class="col-md-6 pl-1">
+              <div class="form-group">
+                <label>Tên cuối</label>
+                <input type="text" class="form-control" formControlName="lastName" placeholder="Last Name">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>Địa chỉ</label>
+                <input type="text" class="form-control" formControlName="address" placeholder="Home Address">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-4 pr-1">
+              <div class="form-group">
+                <label>Thành phố</label>
+                <input type="text" class="form-control" formControlName="city" placeholder="City">
+              </div>
+            </div>
+            <div class="col-md-4 px-1">
+              <div class="form-group">
+                <label>Quốc gia</label>
+                <input type="text" class="form-control" placeholder="Country" formControlName="country">
+              </div>
+            </div>
+            <div class="col-md-4 pl-1">
+              <div class="form-group">
+                <label>Mã bưu điện</label>
+                <input type="number" class="form-control" placeholder="ZIP Code" formControlName="postalCode">
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>Giới thiệu về bản thân</label>
+                <textarea formControlName="bio" class="form-control textarea"></textarea>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="update ml-auto mr-auto">
+              <button type="submit" class="btn btn-primary btn-round" spendingSpinButton [loading]="loading"
+                (click)="update()">Cập nhật hồ sơ</button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>

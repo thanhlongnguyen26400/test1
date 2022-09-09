@@ -1,0 +1,87 @@
+<nav class="navbar navbar-expand-lg navbar-absolute fixed-top navbar-transparent">
+  <div class="container-fluid">
+    <div class="navbar-wrapper">
+      <div class="navbar-toggle">
+        <button type="button" class="navbar-toggler" (click)="sidebarToggle()">
+          <span class="navbar-toggler-bar bar1"></span>
+          <span class="navbar-toggler-bar bar2"></span>
+          <span class="navbar-toggler-bar bar3"></span>
+        </button>
+      </div>
+      <a class="navbar-brand title" href="javascript:void(0)">{{ titles }}</a>
+    </div>
+    <button class="navbar-toggler" type="button" (click)="collapse()" [attr.aria-expanded]="!isCollapsed"
+      aria-controls="collapseExample">
+      <span class="navbar-toggler-bar navbar-kebab"></span>
+      <span class="navbar-toggler-bar navbar-kebab"></span>
+      <span class="navbar-toggler-bar navbar-kebab"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-end" id="collapseExample" [collapse]="isCollapsed">
+      <form>
+        <div class="input-group no-border search-bar" dropdown [isAnimated]="true">
+          <input type="text" class="form-control search-input" placeholder="Search..." [(ngModel)]="searchString"
+            (ngModelChange)="onSearch($event)" (keyup.enter)="onSearch($event.target.value)" dropdownToggle
+            aria-controls="dropdown-search" id="input-search" [ngModelOptions]="{standalone: true}" />
+          <div class="input-group-append search-icon">
+            <div class="input-group-text">
+              <i class="nc-icon nc-zoom-split"></i>
+            </div>
+          </div>
+          <div class="search-result" *dropdownMenu aria-labelledby="input-search" id="dropdown-search" role="menu">
+            <a class="search-item text-center loading" href="javascrip:void(0)" *ngIf="loadSearch">
+              <fa-icon [icon]="['fas', 'spinner']" [pulse]="true"></fa-icon>
+            </a>
+            <a class="search-item" [routerLink]="['/user', user.name, user.id]" *ngFor="let user of searchList"
+              (click)="[onSearch(''),searchString='']">{{user.name}}</a>
+            <a class="search-item" href="javascrip:void(0)" *ngIf="!loadSearch && searchList.length == 0">Not found</a>
+            <!-- <a class="search-item" href="javascrip:void(0)">some name</a>
+            <a class="search-item" href="javascrip:void(0)">some name</a>
+            <a class="search-item" href="javascrip:void(0)">some name</a> -->
+          </div>
+        </div>
+      </form>
+      <ul class="navbar-nav">
+        <!-- <li class="nav-item">
+          <a class="nav-link btn-magnify" href="javascript:void(0)">
+            <i class="nc-icon nc-layout-11"></i>
+            <p>
+              <span class="d-lg-none d-md-block">Stats</span>
+            </p>
+          </a>
+        </li> -->
+        <li class="nav-item btn-rotate" dropdown container="body" [isAnimated]="true" (onShown)="onShown()">
+          <a class="nav-link" dropdownToggle aria-controls="dropdown-basic" id="navbarDropdownMenuLink">
+            <i class="nc-icon nc-bell-55"></i><span class="badge rounded-pill bg-danger fz-8" *ngIf="unRead > 0">{{
+              unRead }}</span>
+            <p>
+              <span class="d-lg-none d-md-block">Notification</span>
+            </p>
+          </a>
+          <div *dropdownMenu aria-labelledby="navbarDropdownMenuLink" id="dropdown-basic" role="menu"
+            class="dropdown-menu dropdown-menu-right">
+            <div class="dd-scroll" (scroll)="onScroll($event)" #ddscroll>
+              <a class="dropdown-item noti-message" [routerLink]="['/note']" *ngFor="let item of notification">
+                {{ item.content }}
+                <span class="badge rounded-pill bg-info fz-8 timestamp">{{
+                  item.lastUpdate
+                  }}</span>
+              </a>
+            </div>
+          </div>
+        </li>
+        <li class="nav-item" dropdown placement="bottom-left" container="body" [isAnimated]="true">
+          <a class="nav-link btn-rotate" dropdownToggle id="navAccount" aria-controls="dd-profile"
+            href="javascript:void(0)">
+            <i class="nc-icon nc-single-02"></i>
+            <p>
+              <span class="d-lg-none d-md-block">Tài khoản</span>
+            </p>
+          </a>
+          <div id="dd-profile" *dropdownMenu aria-labelledby="navAccount" class="dropdown-menu dropdown-menu-right">
+            <a class="dropdown-item logout" href="javascript:void(0)" (click)="logout()">Đăng xuất</a>
+          </div>
+        </li>
+      </ul>
+    </div>
+  </div>
+</nav>

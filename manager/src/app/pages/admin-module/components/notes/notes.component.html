@@ -1,0 +1,152 @@
+<div class="card">
+    <div class="card-body">
+        <h5 class="card-title">Ghi chú</h5>
+        <div class="card-body">
+            <div>
+                <form class="form-inline" [formGroup]="formFilter">
+                    <div class="input-group mb-3 flex-fill">
+                        <span class="input-group-text pointer" for="inputGroupSelect01" (click)="type.toggle()">Loại
+                            tiền</span>
+                        <ng-select class="mr-8" formControlName="type" placeholder="type" [searchable]="false" #type
+                            [clearable]="false">
+                            <ng-option [value]="''">Tất cả</ng-option>
+                            <ng-option *ngFor="let item of INCOME_TYPE" [value]="item.id">{{item.name}}</ng-option>
+                        </ng-select>
+                        <span class="input-group-text pointer" for="inputGroupSelect01" (click)="ht.toggle()">Loại lịch
+                            sử chi tiêu</span>
+                        <ng-select class="mr-8" formControlName="history_type" placeholder="History Type" #ht
+                            [searchable]="false" [clearable]="false">
+                            <ng-option [value]="''">Tất cả</ng-option>
+                            <ng-option *ngFor="let item of history_type" [value]="item.id">
+                                {{item.name}}{{item.description ? ' - '+item.description:''}}</ng-option>
+                        </ng-select>
+                        <span class="input-group-text">Từ:</span>
+                        <input type="text" class="form-control mr-8" placeholder="Từ" aria-label="from"
+                            formControlName="from" bsDatepicker
+                            [bsConfig]="{ isAnimated: true, dateInputFormat: 'MMM, DD YYYY' }">
+                        <span class="input-group-text">Đến:</span>
+                        <input type="text" class="form-control mr-8" placeholder="Đến" aria-label="to"
+                            formControlName="to" bsDatepicker [minDate]="minDate"
+                            [bsConfig]="{ isAnimated: true,dateInputFormat: 'MMM, DD YYYY' }">
+                        <span class="input-group-text">Nhỏ nhất:</span>
+                        <input type="text" class="form-control mr-8" placeholder="Số tiền nhỏ nhất"
+                            aria-label="Min money" formControlName="min" spendingNumberOnly>
+                        <span class="input-group-text">Lớn nhất:</span>
+                        <input type="text" class="form-control" placeholder="Số tiền lớn nhất" aria-label="Min money"
+                            formControlName="max" spendingNumberOnly>
+                    </div>
+                    <div class="input-group mb-3 d-flex justify-content-end">
+                        <button class="btn btn-primary mr-16" (click)="filter()">Lọc</button>
+                        <button class="btn btn-info" (click)="clearFilter()">Xóa Tất cả</button>
+                    </div>
+                </form>
+            </div>
+            <div>
+                <table class="table table-hover">
+                    <thead class="text-primary">
+                        <tr>
+                            <th>#</th>
+                            <th>Loại</th>
+                            <th>Số tiền</th>
+                            <th>Mô tả</th>
+                            <th>Ngày</th>
+                            <th>Loại chi tiêu</th>
+                            <th class="text-center">#</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr
+                            *ngFor="let history of histories | paginate: {id:'history' , itemsPerPage:params.pageSize, currentPage:params.pageNo, totalItems:totalsItem} ; let $index = index">
+                            <td>{{$index+1}}</td>
+                            <td>
+                                <ng-container *ngIf="history.type == 0;then income else expend"></ng-container>
+                            </td>
+                            <td>{{history.money | currency: 'VND'}}</td>
+                            <td class="description">{{history.description}}</td>
+                            <td>{{ history.date | date: 'MMM, dd YYYY'}}</td>
+                            <td>{{history_type_view[history.history_type]}}</td>
+                            <td class="text-center">
+                                <a class="edit" [routerLink]="['/settings','history',history.id]">
+                                    <fa-icon [icon]="['fas','edit']"></fa-icon>
+                                </a> |
+                                <!-- <a class="edit" href="javascription:void(0)" (click)="viewDetail(1,1)"><fa-icon [icon]="['fas','eye']"></fa-icon></a> | -->
+                                <a class="edit" href="javascript:void(0)" (click)="deleteHistory($index,history)">
+                                    <fa-icon [icon]="['fas','trash']"></fa-icon>
+                                </a>
+
+                            </td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <th>#</th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th></th>
+                            <th class="text-center"><a [routerLink]="['/settings','history']">
+                                    <fa-icon [icon]="['fas','plus']" size="2x"></fa-icon>
+                                </a></th>
+                        </tr>
+                    </tfoot>
+                </table>
+                <div class="d-flex justify-content-end">
+                    <pagination-controls id="history" [autoHide]="true" [maxSize]="5" (pageChange)="changePage($event)">
+                    </pagination-controls>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div>
+    <div [collapse]="!isShowDetail" [isAnimated]="true">
+        <div class="card">
+            <div class="card-header d-flex justify-content-end">
+                <fa-icon class="pointer" [icon]="['far','times-circle']" size="2x"
+                    (click)="isShowDetail = !isShowDetail"></fa-icon>
+            </div>
+            <div class="card-body">
+                <h5 class="card-title">Title</h5>
+                <p class="card-text">Content</p>
+            </div>
+            <div class="card-footer">
+                Footer
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #income>
+    <svg xmlns="http://www.w3.org/2000/svg" width="30.578" height="31.999" viewBox="0 0 30.578 31.999">
+        <g id="Group_2049" data-name="Group 2049" transform="translate(-9840.998 17752.02)">
+            <g id="_103-arrow" data-name="103-arrow" transform="translate(9840.998 -17737.723)">
+                <path id="Path_772" data-name="Path 772"
+                    d="M82.285,241.907a3.566,3.566,0,0,0-1.337.263,3.362,3.362,0,0,0-2.131,3.117v2.784a1.354,1.354,0,0,0,2.706,0v-2.784a.723.723,0,0,1,.466-.7.731.731,0,0,1,.805.161l4.269,4.1a2.632,2.632,0,0,1,0,3.815l-4.269,4.1a.731.731,0,0,1-.805.161.723.723,0,0,1-.466-.7v-2.915A1.332,1.332,0,0,0,80.17,252h-16.1a1.311,1.311,0,1,1,0-2.621h2.165a1.311,1.311,0,1,0,0-2.621H64.069a3.934,3.934,0,1,0,0,7.864H78.817v1.6a3.361,3.361,0,0,0,2.131,3.117,3.475,3.475,0,0,0,3.751-.719l4.269-4.1a5.2,5.2,0,0,0,0-7.539l-4.269-4.1a3.472,3.472,0,0,0-2.414-.982Z"
+                    transform="translate(-60.01 -241.907)" fill="#51de71" />
+                <path id="Path_773" data-name="Path 773"
+                    d="M212.86,397.964h-3.539a1.311,1.311,0,0,0,0,2.622h3.539a1.311,1.311,0,0,0,0-2.622Z"
+                    transform="translate(-197.915 -393.11)" fill="#612bd3" />
+            </g>
+            <path id="Path_1674" data-name="Path 1674"
+                d="M323.8,5.243h-3.932V1.311a1.311,1.311,0,1,0-2.621,0V5.243h-3.932a1.311,1.311,0,0,0,0,2.621h3.932V11.8a1.311,1.311,0,1,0,2.621,0V7.864H323.8a1.311,1.311,0,0,0,0-2.621Z"
+                transform="translate(9535.653 -17752.02)" fill="#51de71" />
+        </g>
+    </svg>
+</ng-template>
+<ng-template #expend>
+    <svg xmlns="http://www.w3.org/2000/svg" width="30.578" height="26.756" viewBox="0 0 30.578 26.756">
+        <g id="Group_2049" data-name="Group 2049" transform="translate(0 -0.001)">
+            <g id="_103-arrow" data-name="103-arrow" transform="translate(0 9.055)">
+                <path id="Path_772" data-name="Path 772"
+                    d="M68.313,241.907a3.566,3.566,0,0,1,1.337.263,3.362,3.362,0,0,1,2.131,3.117v2.784a1.354,1.354,0,0,1-2.706,0v-2.784a.723.723,0,0,0-.466-.7.731.731,0,0,0-.805.161l-4.269,4.1a2.632,2.632,0,0,0,0,3.815l4.269,4.1a.731.731,0,0,0,.805.161.723.723,0,0,0,.466-.7v-2.915A1.332,1.332,0,0,1,70.428,252h16.1a1.311,1.311,0,1,0,0-2.621H84.364a1.311,1.311,0,1,1,0-2.621h2.165a3.934,3.934,0,1,1,0,7.864H71.781v1.6a3.361,3.361,0,0,1-2.131,3.117,3.475,3.475,0,0,1-3.751-.719l-4.269-4.1a5.2,5.2,0,0,1,0-7.539l4.269-4.1a3.472,3.472,0,0,1,2.414-.982Z"
+                    transform="translate(-60.01 -241.907)" fill="#ff6961" />
+                <path id="Path_773" data-name="Path 773"
+                    d="M209.321,397.964h3.539a1.311,1.311,0,0,1,0,2.622h-3.539a1.311,1.311,0,0,1,0-2.622Z"
+                    transform="translate(-193.687 -393.11)" fill="#eb088c" />
+            </g>
+            <path id="Path_1674" data-name="Path 1674"
+                d="M313.311,5.243H323.8a1.311,1.311,0,0,1,0,2.621H313.311a1.311,1.311,0,0,1,0-2.621Z"
+                transform="translate(-301.185 -5.242)" fill="#ff6961" />
+        </g>
+    </svg>
+</ng-template>

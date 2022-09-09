@@ -1,0 +1,104 @@
+@import "../../../assets/scss/paper-dashboard/variables";
+.dropdown-menu-right {
+  right: -70px !important;
+  max-height: 200px;
+  .dd-scroll {
+    max-height: 200px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    height: 200px;
+  }
+}
+.noti-message {
+  position: relative;
+  .timestamp {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+  }
+  &:hover {
+    background-color: $cyan-300;
+    .timestamp {
+      background-color: $teal-500 !important;
+    }
+  }
+}
+
+.search-bar {
+  position: relative;
+  .search-input {
+    border-radius: 8px !important;
+    border: 1px solid transparent;
+    &:focus {
+      border: 1px solid $green-700;
+      background-color: $yellow-200;
+    }
+    &:hover:not(:focus) {
+      background-color: $yellow-100;
+    }
+  }
+  .search-icon {
+    position: absolute;
+    right: 0;
+    z-index: 9;
+    .input-group-text {
+      background-color: transparent;
+    }
+  }
+  .search-result {
+    box-shadow: $box-shadow-sm;
+    position: absolute;
+    top: 48px !important;
+    left: 0 !important;
+    background: #fff;
+    border-radius: 10px !important;
+    width: inherit;
+    max-height: 200px;
+    overflow: auto;
+    overflow-x: hidden;
+    display: none;
+    &.show {
+      display: block;
+    }
+    .search-item {
+      display: block;
+      padding: 16px;
+      text-decoration: none;
+      border-radius: 10px;
+      &:hover {
+        background-color: $yellow-400;
+      }
+      &.loading {
+        padding: 8px 16px;
+      }
+    }
+    &::-webkit-scrollbar {
+      width: 8px;
+      background: transparent;
+      border-radius: 8px;
+    }
+    &::-webkit-scrollbar-thumb {
+      background: $gray-600;
+      border-radius: 8px;
+    }
+    &::-webkit-scrollbar-track {
+      margin: 8px;
+    }
+  }
+}
+
+.logout {
+  &:hover {
+    background-color: $red-500;
+  }
+}
+.title {
+  &:hover {
+    color: $cyan-500 !important;
+  }
+}
+@media screen and (min-width: 600px) {
+  .dropdown-menu-right {
+    right: 0 !important;
+  }
+}

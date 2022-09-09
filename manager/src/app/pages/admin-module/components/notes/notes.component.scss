@@ -1,0 +1,15 @@
+td {
+  .edit {
+    color: black;
+    &:hover {
+      color: #51ce81;
+    }
+  }
+  &.description {
+    max-width: 200px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    font-weight: 400;
+  }
+}

@@ -1,0 +1,79 @@
+.ng-select{
+    width: 150px;
+    max-width: 150px;
+    flex: 1 1;
+    .ng-select-container{
+        padding: 8px;
+        height: auto !important;
+        background:transparent;
+        .ng-placeholder{
+            margin:auto;
+            opacity: .5;
+        }
+        &.ng-has-value{
+            .ng-placeholder{
+                visibility: hidden;
+                position: absolute;
+            }
+            .ng-value{
+                margin: auto;
+            }
+        }
+    }
+    .ng-dropdown-panel-items{
+        border: 1px solid #DDDDDD;
+        border-radius: 4px;
+        background: #fff;
+        .ng-option{
+            padding: 8px;
+        }
+    }
+    &.ng-select-opened{
+        border-color: #66615B;
+        border-left: none;
+        transition: all 1s;
+        background:transparent;
+    }
+    &.form-select{
+        width: auto;
+        height: auto;
+        background-image: none;
+        padding-right: 0;
+        max-width: none;
+        &.ng-select-focused:not(.ng-select-opened){
+            .ng-select-container{
+                border: none;
+                box-shadow: none;
+                background:transparent;
+            }
+        }
+        .ng-select-container{
+            border: none;
+            box-shadow: none;
+            background:transparent;
+        }
+        .ng-dropdown-panel{
+            left: 0;
+            top: 80px;
+            border: none;
+            .ng-dropdown-panel-items{
+                border: 1px solid #66615B;
+                .ng-option{
+                    &:hover{
+                        background: #9e9d9d3d;
+                    }
+                }
+            }
+        }
+        &.ng-select-opened{
+            border:1px solid #66615B;
+            transition: all 1s;
+        }
+        &.is-invalid{
+            background-size: 16px !important;
+            padding-right: 32px !important;
+            background-repeat: no-repeat;
+            background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 12 12' width='12' height='12' fill='none' stroke='%23dc3545'%3e%3ccircle cx='6' cy='6' r='4.5'/%3e%3cpath stroke-linejoin='round' d='M5.8 3.6h.4L6 6.5z'/%3e%3ccircle cx='6' cy='8.2' r='.6' fill='%23dc3545' stroke='none'/%3e%3c/svg%3e") !important;
+        }
+    }
+}
